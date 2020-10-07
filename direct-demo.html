@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <title>MultilingualismJS - Direct-Demo</title>
+    <style>
+        body { margin: 20px;}
+        table {
+            width: calc(100vw - 40px);
+            border-collapse: collapse;
+        }
+        th {
+            background-color: #4CAF50;
+            color: #eeeeee;
+        }
+        td, th {
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        select, input {
+            width: 100%;
+        }
+    </style>
+<body>
+    <table>
+        <tr>
+            <th><mul-js reg-id="BROWSER_LANGUAGE_HINT" chn="您的语言" de="Deine Sprache" en="Your language" jpn="あなたの言語" pl="Twój język" rus="Ваш язык"></mul-js></th>
+            <th><mul-js reg-id="ACTIVE_LANGUAGE_HINT" chn="活跃的语言" de="Aktive Sprache" en="Active language" jpn="アクティブ言語" pl="Język aktywny" rus="Активный язык"></mul-js></th>
+            <th><mul-js reg-id="SELECT_LANGUAGE" chn="选定的语言" de="Gewählte Sprache" en="Selected language" jpn="選択された言語" pl="Wybrany język" rus="Выбранный язык"></mul-js></th>
+        </tr>
+        <tr>
+            <td><mul-js reg-id="MUL_JS_BROWSER_LANGUAGE" mul-js-default="de"></mul-js></td>
+            <td><mul-js reg-id="MUL_JS_ACTIVE" mul-js-default="en"></mul-js></td>
+            <td>
+                <select name="language_selection" id="language_selection">
+                    <option value="chn">CHN</option>
+                    <option value="de">DE</option>
+                    <option value="en" selected="">EN</option>
+                    <option value="jpn">JPN</option>
+                    <option value="pl">PL</option>
+                    <option value="rus">RUS</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><mul-js reg-id="COMMAND_TEXT" chn="切换到" de="Wechsel zu" en="Change to" jpn="切り替えてください" pl="Przełącz na" rus="Переключись на"></mul-js></td>
+            <td><button onclick="switchTo('SAMPLE_LIKE_TEXT');"><mul-js reg-id="COMMAND_BUTTON_LIKE" chn="喜欢" de="Mögen" en="Like" jpn="みたいな感じで" pl="Lubię" rus="Типа того"></mul-js></button></td>
+            <td><button onclick="switchTo('SAMPLE_NOT_LIKE_TEXT');"><mul-js reg-id="COMMAND_BUTTON_NOT_LIKE" chn="不喜欢" de="Nicht mögen" en="Not like" jpn="好きではありません" pl="Nie lubię" rus="Не так"></mul-js></button></td>
+        </tr>
+        <tr>
+            <td colspan="3" id="sample-element"><mul-js reg-id="SAMPLE_LIKE_TEXT" chn="我喜欢建网站。" de="Ich mag Webentwicklung." en="I like web development." jpn="ホームページを作るのが好きです。" pl="Lubię budować strony internetowe." rus="Мне нравится создавать сайты."></mul-js></td>
+        </tr>
+    </table>
+    <script src="Multilingualism.js"></script> 
+    <script>
+        var languageSelection = document.getElementById('language_selection');
+        languageSelection.addEventListener('change', () => {
+            MultilingualismJs.setLanguage(languageSelection.value);
+        });
+        MultilingualismJs.setLanguage('en');
+        function switchTo(mulJsRegId) {
+            var e = document.getElementById('sample-element');
+            if(mulJsRegId == 'SAMPLE_LIKE_TEXT') {
+                e.innerHTML = `<mul-js chn="我喜欢建网站。" de="Ich mag Webentwicklung." en="I like web development." jpn="ホームページを作るのが好きです。" pl="Lubię budować strony internetowe." rus="Мне нравится создавать сайты.">I like web development.</mul-js>`;
+            } else {
+                e.innerHTML = `<mul-js chn="我不喜欢建网站。" de="Ich mag keine Webentwicklung." en="I do not like web development." jpn="私はホームページを作るのが好きではありません。" pl="Nie lubię budować strony internetowe." rus="Я не люблю создавать сайты.">I do not like web development.</mul-js>`;
+            }
+            MultilingualismJs.scan(false);
+        }
+    </script>
+</body>
+</html>

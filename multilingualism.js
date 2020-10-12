@@ -1,4 +1,6 @@
+// Define a custom element
 window.customElements.define('mul-js', class extends HTMLElement {
+  // Update function to set text/word based on the selected language
   update() {
     MultilingualismJs.log(2, 0, `Update element with reg-id${this['reg-id']}`);
     var foundLanguage = false,
@@ -13,19 +15,22 @@ window.customElements.define('mul-js', class extends HTMLElement {
         break;
       }
     }
+    // Use default text/word if no translation founded
     if(!foundLanguage) {
       this.innerHTML = this.hasAttribute('mul-js-default') ? this.getAttribute('mul-js-default') : '???';
     }
   }
 });
 
+// Object to handle the logic
 var MultilingualismJs = {
-  version: 'v0.2.0-alpha',
-  debug: 0,
-  lockScan: true,
-  blockEvents: true,
-  language: '',
-  registred: {},
+  version: 'v0.2.0-alpha',  // Version of this library
+  debug: 0,                 // Debug level (for log)
+  lockScan: true,           // Lock scan until setup comleted
+  blockEvents: true,        // Block DOM watch event if working on the DOM (not used on this version)
+  language: '',             // Holds current language
+  registred: {},            // Map with registred translations
+  // Function to log based on message type and level
   log: (level, messageType, message) => {
     if(MultilingualismJs.debug >= level) {
         if(messageType == 0) {
@@ -37,6 +42,7 @@ var MultilingualismJs = {
         }
     }
   },
+  // Configure this library and enable scan
   setup: () =>{
     MultilingualismJs.log(1, 0, 'Setup MultilingualismJS library');
     MultilingualismJs.log(1, 0, `Version: ${MultilingualismJs.version}`);
@@ -72,6 +78,7 @@ var MultilingualismJs = {
     MultilingualismJs.blockEvents = false;
     MultilingualismJs.scan();
   },
+  // Function to change the language
   setLanguage: (language) => {
     language = language.toLowerCase();
     MultilingualismJs.log(1, 0, `Switch language to ${language}`);
@@ -79,6 +86,7 @@ var MultilingualismJs = {
     MultilingualismJs.register('MUL_JS_ACTIVE', {'mul-js-default' : language}, true);
     MultilingualismJs.scan();
   },
+  // Function to scan for all elements, inject translation and update them
   scan: (updateLanguagePack=true) => {
     if(MultilingualismJs.lockScan) {
       return;
@@ -103,6 +111,7 @@ var MultilingualismJs = {
     MultilingualismJs.blockEvents = false;
     MultilingualismJs.log(2, 0, `Scan DOM completed, updated ${elements.length} elements`);
   },
+  // Function to register a translation for a specific reg-id
   register: (regId=undefined, languagePack=undefined, force=false) => {
     if(regId == undefined || regId == null || regId.length == 0) {
       MultilingualismJs.log(0, 2, '"reg-id" is not defined'); 
@@ -121,6 +130,7 @@ var MultilingualismJs = {
   }
 };
 
+// Trigger setup on page loaded
 if(window.onload) {
   window.onload = () => {
     MultilingualismJs.setup();
